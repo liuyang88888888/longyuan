@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: order
+  datasource:
+    #    driver-class-name: com.mysql.jdbc.Driver # 新的驱动程序类是'com.mysql.cj.jdbc.Driver '.驱动程序是通过SPI自动注册的，并且手动加载驱动类通常是不必要的。这是启动项目时系统报的信息,所以不用再设置这个驱动类了
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/springcloud?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8 # 问号后面是增加了2个数据库设置,characterEncoding是为了防止读取数据库数据乱码,useSSL是因为有些高版本的MySQL需要指明是否进行SSL连接,所以需要设置下useSSL连接,而这个useSSL设置的用途是关于jdbc版本和mysql版本如果不兼容的情况下用不用创建SSL连接去解决兼容..serverTimezone是设置数据库时区的,因为有些高版本的mysql驱动造成数据库和系统时区差异,然后在这个项目启动的时候会报错,所以在这里设置一下就好了
+  jpa:
+    show-sql: true # 这个是设置是否显示sql语句
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8081 # 设置端口号
+PRODUCT: # 这是改变springcloud默认的负载均衡组件 ribbon 的负载均衡策略的配置(默认是轮询策略,下面是配置成随机策略了),PRODUCT是要调用的服务名,就是说配置哪个服务名,那在本服务调用该服务的时候就使用下面配置负责均衡策略来调用...这个配置一般不用配置...
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
